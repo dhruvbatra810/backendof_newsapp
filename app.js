@@ -1,9 +1,17 @@
 const express  = require('express');
+const cors = require('cors');
 const app = express();
+
 const routes  = require('./router');
 const port = 3001;
 const coonectdb = require('./db/connect');
  require('dotenv').config();
+
+app.use(cors({
+    origin:"*",
+    methods:["GET","POST","PUT","PATCH","DELETE"],
+    credentials:true
+}))
 app.use(express.json());
 app.get('/',(req,res)=>{
     res.send("backendddddddddddddddddddd")
