@@ -19,6 +19,7 @@ const signup = async(req,res)=>{
 
 const login = async(req,res)=>{
    try{
+       console.log(req.url);
        const present = await users.find(req.body);
        if(present.length){ 
            res.status(200).send(present);
