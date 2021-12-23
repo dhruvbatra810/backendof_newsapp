@@ -17,9 +17,7 @@ app.use(express.json());
 app.get('/',(req,res)=>{
     res.send("backendddddddddddddddddddd")
 })
-app.post('/',(req,res)=>{
-    res.send('post is working');
-})
+
 app.use('/',routes);
 const start = async ()=>{
     try{
