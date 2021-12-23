@@ -34,7 +34,7 @@ const login = async(req,res)=>{
 }
 const forgotpass = async(req,res)=>{
   const value  =  await users.find(req.body);
-  console.log(value[0]._id);
+  console.log(value.length)
   if(value.length){
     const sgMail = require('@sendgrid/mail')
 sgMail.setApiKey(process.env.SENDGRID_API_KEY)
@@ -51,7 +51,7 @@ sgMail
     console.log('Email sent')
   })
   .catch((error) => {
-    console.error(error.body)
+    res.status(500).send('this id doesnot exsist');
   })
   }
   else res.status(500).send('this id doesnot exsist');
