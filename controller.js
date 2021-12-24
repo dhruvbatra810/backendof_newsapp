@@ -3,6 +3,7 @@ const sgMail = require('@sendgrid/mail')
 const signup = async(req,res)=>{  
     // console.log('post request');
     try{
+      console.log(req.body.User_name);
    const present = await users.find({User_name :req.body.User_name})
     if(present.length === 0)
      {
@@ -10,11 +11,11 @@ const signup = async(req,res)=>{
     res.status(201).json(task);
     res.end();}
     else {
-        res.status(500).send('username already taken');
+        res.status(501).send('username already taken');
     }
 }
     catch(error){
-        res.status(500).send(error);
+        res.status(500).json(`wow`);
     }
 }
 
@@ -48,7 +49,8 @@ const msg = {
 sgMail
   .send(msg)
   .then(() => {
-    console.log('Email sent')
+    // console.log('Email sent')
+    res.status(201).send('email sent');
   })
   .catch((error) => {
     res.status(500).send('this id doesnot exsist');
@@ -67,7 +69,46 @@ try{
 }
 
 }
+
+const addthis = async(req,res)=>{
+  try{
+
+  const wow =  await users.find({User_name:req.body.namee});
+  const  {image,name,url,provider,about,description} =req.body; 
+  const addthis = {
+       image:image,
+       name:name,
+       url:url,
+       about:about,
+       description:description,
+       provider:provider
+     };
+    // console.log(wow);
+    
+    
+    const value = wow[0].bookmarks.find((e)=>e.url === addthis.url)
+    console.log('noice',value);
+  if(wow.length===0 || value)
+  throw 'not login';
+  console.log(wow);
+    const wow2 = await users.findByIdAndUpdate(wow[0]._id , {
+     bookmarks: [...wow[0].bookmarks , {
+       image:image,
+       name:name,
+       url:url,
+       about:about,
+       description:description,
+       provider:provider
+     }]
+    })
+    res.status(200).send(wow2);
+  }catch(error){
+    res.status(500).send('not login')
+  }
+  
+
+}
 module.exports = {
-    signup,login,forgotpass,update
+    signup,login,forgotpass,update,addthis
 
 }

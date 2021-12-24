@@ -15,7 +15,8 @@ const userSchema = new mongoose.Schema({
         type:String,
         required:[true,'email is needed'],
         trim:true
-    }
+    },
+    bookmarks:Array
 })
 
 module.exports = mongoose.model('users',userSchema); 
