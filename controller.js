@@ -106,9 +106,37 @@ const addthis = async(req,res)=>{
     res.status(500).send('not login')
   }
   
+}
+const bookmark  = async(req,res)=>{
+   console.log(req.body);
+  try{
+   
+    const result = await users.find(req.body);
+    res.status(200).send(result[0].bookmarks);
+  }catch(error){
+    res.stataus(500).send('server not up');
+  }
+}
+const removethis = async(req,res)=>{
+ try{
+      const value = await users.find({
+        User_name:req.body.namee
+      })
+      const arr  = value[0].bookmarks.filter((v)=>{
+          return v.name !== req.body.name;
+      })
+      
+      const v = await users.findByIdAndUpdate(value[0]._id,{
+        bookmarks: arr
+      })
+      res.status(200).send(arr);
+ }
+ catch(error){
+  res.stataus(500).send(error);
+ }
 
 }
 module.exports = {
-    signup,login,forgotpass,update,addthis
+    signup,login,forgotpass,update,addthis,bookmark,removethis
 
 }
